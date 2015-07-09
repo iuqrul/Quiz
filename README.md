@@ -34,3 +34,17 @@ Entregar en el texto de la entrega a MiriadaX
 
 2) El URL al proyecto en GITHUB como un enlace clicable.
 El evaluador debe comprobar que en Heroku se ha desplegado la aplicación con los cambios solicitados y que en GITHUB se ha subido el proyecto y que los cambios solicitados se han introducido en el último commit.
+
+
+
+Modulos necesarios:
+
+	body-parser
+	cookie-parser
+	debug
+	ejs
+	express
+	morgan
+	serve-favicon
+	
+Desde Quiz\src\quiz se instalan con npm install porque están en las dependencias de package.json
