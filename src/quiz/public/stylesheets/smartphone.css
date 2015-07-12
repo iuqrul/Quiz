@@ -1,5 +1,7 @@
-*				{ margin: 0; padding: 0; }
-body			{font: 16px Georgia, serif; }
-#page-wrap		{margin: 2% auto; color: whilte; }
-#page-wrap		{margin: 2% auto; color: whilte; }
-nav span			{ margin: 0px 10px 0px 0px; }
+body 		{ background: #333; }
+
+#page-wrap:after 	{ content: "Smartphone layout"; }
+
+h2 span, section h3	{ display: none; }
+body				{ font-size: xx-large; }
+footer, input			{ font-size: large; }
