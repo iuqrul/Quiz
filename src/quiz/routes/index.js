@@ -14,7 +14,7 @@ router.get('/quizes/answer', quizController.answer);
 
 /* GET créditos */
 router.get('/author', function(req, res, next) {
-  res.render('author', { author: 'Javi Lurquí' });
+  res.render('author', { author: 'Javier Lurquí' });
 });
 
 module.exports = router;
