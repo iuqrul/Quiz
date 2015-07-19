@@ -1,1 +1,3 @@
 /src/quiz/node_modules
+/src/quiz/.env
+/_gitignore
