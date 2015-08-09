@@ -6,9 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 var routes = require('./routes/index');
-//var users = require('./routes/users');
 
 var app = express();
 
@@ -26,12 +26,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 		extended : true
 	}));
-app.use(cookieParser());
+app.use(cookieParser('Quiz 2015'));
+app.use(session({
+		secret : process.env.SESSION_SECRET || '<elsecreto>',
+		resave : true,
+		saveUninitialized : true
+	}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-//app.use('/users', users);
+// Helpers dinamicos:
+app.use(function (req, res, next) {
+
+	// Guardar path en session.redir para despues login
+	if (!req.path.match(/\/login|\/logout/)) {
+		req.session.redir = req.path;
+	}
+
+	//Hacer visible req.session.redir = req.path;
+	res.locals.session = req.session;
+	next();
+
+});
+
+app.use('/', routes); //Debe estar DESPUES de crear la session
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

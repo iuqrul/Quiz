@@ -3,7 +3,15 @@ var models = require('../models/models.js');
 
 // Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function (req, res, next, quizId) {
-	models.Quiz.find(quizId).then(
+	models.Quiz.find({
+		where : {
+			id : Number(quizId)
+		},
+		include : [{
+				model : models.Comment
+			}
+		]
+	}).then(
 		function (quiz) {
 		if (quiz) {
 			req.quiz = quiz;
@@ -18,7 +26,23 @@ exports.load = function (req, res, next, quizId) {
 
 //GET /quizes
 exports.index = function (req, res, next) {
-	models.Quiz.findAll().then(
+
+	var busqueda = {
+		order : [['pregunta', 'ASC']]
+	};
+
+	//Si hay parametro de busqueda
+
+	if (req.query.search) {
+		var cadenaBusqueda = '%' + req.query.search.replace(/\s/g, '%') + '%';
+		busqueda.where = {
+			pregunta : {
+				$like : cadenaBusqueda
+			}
+		};
+	};
+
+	models.Quiz.findAll(busqueda).then(
 		function (quizes) {
 		res.render('quizes/index.ejs', {
 			quizes : quizes,
@@ -124,8 +148,8 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res, next) {
 	req.quiz.destroy().then(
 		function () {
-			res.redirect('/quizes');
-		}).catch (
+		res.redirect('/quizes');
+	}).catch (
 		function (error) {
 		next(error)
 	});
