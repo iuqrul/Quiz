@@ -53,9 +53,10 @@ app.use(function (req, res, next) {
 app.use(function (req, res, next) {
 	
 	if (req.session.user && req.session.logintime) { 
-		if (new Date().getTime() / 60000 - req.session.logintime > 2) {
+		var t = new Date().getTime() / 60000 - req.session.logintime;
+		
+		if (t > 0.1) {
 			req.session.user = null;
-			res.redirect('/logout');
 		}
 	} else {
 		req.session.logintime = new Date().getTime() / 60000;
