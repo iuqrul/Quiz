@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
 	if (req.session.user && req.session.logintime) { 
 		var t = new Date().getTime() / 60000 - req.session.logintime;
 		
-		if (t > 0.1) {
+		if (t > 2) {
 			req.session.user = null;
 		}
 	} else {
