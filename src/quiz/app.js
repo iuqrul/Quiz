@@ -43,10 +43,26 @@ app.use(function (req, res, next) {
 		req.session.redir = req.path;
 	}
 
-	//Hacer visible req.session.redir = req.path;
+	//Hacer visible req.session;
 	res.locals.session = req.session;
 	next();
 
+});
+
+// Control de autologout
+app.use(function (req, res, next) {
+	
+	if (req.session.user && req.session.logintime) { 
+		if (new Date().getTime() / 60000 - req.session.logintime > 2) {
+			req.session.user = null;
+			res.redirect('/logout');
+		}
+	} else {
+		req.session.logintime = new Date().getTime() / 60000;
+	}
+	
+	next();
+	
 });
 
 app.use('/', routes); //Debe estar DESPUES de crear la session
